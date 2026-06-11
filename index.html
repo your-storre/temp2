@@ -24,7 +24,6 @@
             width: 100%;
         }
 
-        /* Main container - exactly iPhone viewport height, no scroll */
         .delta-container {
             max-width: 500px;
             margin: 0 auto;
@@ -36,41 +35,44 @@
             position: relative;
         }
 
-        /* Hide scrollbar but keep functionality */
         .delta-container::-webkit-scrollbar {
             width: 0;
             background: transparent;
         }
 
-        /* ===== DELTA HEADER (White logo on dark blue) ===== */
+        /* ===== DELTA HEADER ===== */
         .delta-header {
             background: #003A70;
             padding: 12px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: nowrap;
             position: sticky;
             top: 0;
             z-index: 10;
+        }
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
         .delta-logo {
             height: 32px;
             width: auto;
             filter: brightness(0) invert(1);
         }
+        .skyteam-logo {
+            height: 24px;
+            width: auto;
+            filter: brightness(0) invert(1);
+            opacity: 0.9;
+        }
         .header-right {
             display: flex;
             align-items: center;
             gap: 20px;
         }
-        .check-in-link {
-            color: white;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 500;
-        }
-        .my-trips-link {
+        .header-link {
             color: white;
             text-decoration: none;
             font-size: 13px;
@@ -97,7 +99,7 @@
             text-decoration: none;
         }
 
-        /* ===== CONFIRMATION BANNER (green, shows paid) ===== */
+        /* ===== CONFIRMATION BANNER ===== */
         .confirmation-banner {
             background: #E8F5E9;
             margin: 0 18px 16px 18px;
@@ -172,11 +174,27 @@
         .flight-body {
             padding: 16px;
         }
+        .airline-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+        .partner-logo {
+            height: 22px;
+            width: auto;
+        }
         .flight-numbers {
             font-size: 12px;
             font-weight: 600;
             color: #4B5563;
-            margin-bottom: 14px;
+        }
+        .duration-top {
+            margin-left: auto;
+            font-size: 12px;
+            color: #6B7280;
+            font-weight: 500;
         }
         .journey-row {
             display: flex;
@@ -211,17 +229,17 @@
         }
         .journey-middle {
             text-align: center;
-            min-width: 70px;
+            min-width: 80px;
         }
-        .duration {
-            font-size: 11px;
-            font-weight: 500;
-            color: #4B5563;
+        .plane-svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
         }
-        .stops {
+        .stops-info {
             font-size: 10px;
             color: #6B7280;
-            margin-top: 3px;
+            margin-top: 4px;
         }
         .cabin-badge {
             margin-top: 14px;
@@ -236,6 +254,20 @@
             color: #6B7280;
             font-style: italic;
             margin-top: 8px;
+        }
+        /* Amenities row */
+        .amenities-row {
+            margin-top: 12px;
+            padding-top: 8px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            border-top: 1px solid #EFEFF0;
+        }
+        .amenity-icon {
+            width: 18px;
+            height: 18px;
+            opacity: 0.7;
         }
 
         /* ===== PASSENGER CARD ===== */
@@ -294,10 +326,10 @@
             color: #6B7280;
         }
 
-        /* ===== BOTTOM CONFIRMATION BAR ===== */
+        /* ===== BOTTOM CONFIRMATION ===== */
         .bottom-confirm {
             background: #E8F5E9;
-            margin: 8px 18px 16px 18px;
+            margin: 8px 18px 20px 18px;
             padding: 10px 14px;
             border-radius: 8px;
             display: flex;
@@ -320,34 +352,34 @@
             background: #F3F4F6;
         }
 
-        /* Small adjustments for perfect fit */
         @media (max-width: 450px) {
             .time-large { font-size: 20px; }
             .airport-code { font-size: 13px; }
             .journey-row { gap: 6px; }
-            .flight-card-header { padding: 10px 14px; }
-            .flight-body { padding: 12px; }
         }
     </style>
 </head>
 <body>
 <div class="delta-container">
-    <!-- Delta Header with WHITE logo and check-in link -->
+    <!-- Delta Header with both logos (white versions) -->
     <div class="delta-header">
-        <img class="delta-logo" src="https://www.delta.com/content/dam/delta_homepage_redesign/Logo/Delta-Logo.svg" alt="Delta Air Lines" onerror="this.style.display='none'">
+        <div class="logo-group">
+            <img class="delta-logo" src="https://www.delta.com/content/dam/delta_homepage_redesign/Logo/Delta-Logo.svg" alt="Delta Air Lines" onerror="this.style.display='none'">
+            <img class="skyteam-logo" src="https://www.delta.com/content/dam/delta_homepage_redesign/Logo/Sky%20Team.svg" alt="SkyTeam" onerror="this.style.display='none'">
+        </div>
         <div class="header-right">
-            <a href="#" class="check-in-link" id="checkInLink">Check in</a>
-            <a href="#" class="my-trips-link" id="myTripsLink">My Trips</a>
+            <a href="#" class="header-link" id="checkInLink">Check in</a>
+            <a href="#" class="header-link" id="myTripsLink">My Trips</a>
         </div>
     </div>
 
-    <!-- Trip header with dates -->
+    <!-- Trip header -->
     <div class="trip-header">
         <span class="trip-dates">Jun 12 - 16</span>
         <a href="#" class="modify-link" id="modifyLink">Modify</a>
     </div>
 
-    <!-- Green confirmation banner - shows paid status -->
+    <!-- Confirmation banner -->
     <div class="confirmation-banner">
         <div class="check-icon">✓</div>
         <div class="confirmation-text">Trip confirmed · Paid in full</div>
@@ -366,7 +398,12 @@
             <a href="#" class="change-link" id="changeOutbound">Change Flight</a>
         </div>
         <div class="flight-body">
-            <div class="flight-numbers">DL2430 · DL9375¹ · DL9372²</div>
+            <div class="airline-row">
+                <img class="partner-logo" src="https://www.delta.com/content/dam/delta-content-api/images/partner-logos/Delta-Partner-Logo.png" alt="Delta" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'20\'%3E%3Crect width=\'40\' height=\'20\' fill=\'%23003A70\'/%3E%3Ctext x=\'5\' y=\'14\' fill=\'white\' font-size=\'10\'%3EDL%3C/text%3E%3C/svg%3E'">
+                <img class="partner-logo" src="https://www.delta.com/content/dam/delta-content-api/images/partner-logos/KLM-Partner-Logo.png" alt="KLM" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'20\'%3E%3Crect width=\'40\' height=\'20\' fill=\'%230055A4\'/%3E%3Ctext x=\'5\' y=\'14\' fill=\'white\' font-size=\'10\'%3EKLM%3C/text%3E%3C/svg%3E'">
+                <span class="flight-numbers">DL2430 · DL9375¹ · DL9372²</span>
+                <span class="duration-top">20h 41m</span>
+            </div>
             <div class="journey-row">
                 <div class="location">
                     <div class="time-large">6:59pm</div>
@@ -375,8 +412,10 @@
                     <div class="airport-name">Newark Liberty Intl</div>
                 </div>
                 <div class="journey-middle">
-                    <div class="duration">20h 41m</div>
-                    <div class="stops">2 stops</div>
+                    <svg class="plane-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#6B7280"/>
+                    </svg>
+                    <div class="stops-info">2 stops</div>
                 </div>
                 <div class="location" style="text-align: right;">
                     <div class="time-large">7:40pm</div>
@@ -386,6 +425,26 @@
                 </div>
             </div>
             <div class="cabin-badge">Economy</div>
+            <!-- Amenities row with real icons -->
+            <div class="amenities-row">
+                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 13h14v2H5zM5 9h14v2H5z" fill="#6B7280"/>
+                    <path d="M3 5h18v14H3z" stroke="#6B7280" stroke-width="1.5" fill="none"/>
+                </svg>
+                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="7" width="16" height="10" rx="2" stroke="#6B7280" stroke-width="1.2" fill="none"/>
+                    <path d="M12 4v3M8 2v2M16 2v2" stroke="#6B7280" stroke-width="1.2"/>
+                    <circle cx="12" cy="12" r="1.5" fill="#6B7280"/>
+                </svg>
+                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3v18M7 8l5-3 5 3M7 16l5 3 5-3" stroke="#6B7280" stroke-width="1.2"/>
+                    <path d="M18 10v4M6 10v4" stroke="#6B7280" stroke-width="1.2"/>
+                </svg>
+                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="8" width="20" height="8" rx="1" stroke="#6B7280" stroke-width="1.2" fill="none"/>
+                    <path d="M8 12h8M19 11v2" stroke="#6B7280" stroke-width="1.2"/>
+                </svg>
+            </div>
             <div class="operated-note">² Operated by KLM Royal Dutch Airlines.</div>
         </div>
     </div>
@@ -397,7 +456,12 @@
             <a href="#" class="change-link" id="changeReturn">Change Flight</a>
         </div>
         <div class="flight-body">
-            <div class="flight-numbers">DL9373¹ · DL133 · DL2573</div>
+            <div class="airline-row">
+                <img class="partner-logo" src="https://www.delta.com/content/dam/delta-content-api/images/partner-logos/Delta-Partner-Logo.png" alt="Delta" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'20\'%3E%3Crect width=\'40\' height=\'20\' fill=\'%23003A70\'/%3E%3Ctext x=\'5\' y=\'14\' fill=\'white\' font-size=\'10\'%3EDL%3C/text%3E%3C/svg%3E'">
+                <img class="partner-logo" src="https://www.delta.com/content/dam/delta-content-api/images/partner-logos/KLM-Partner-Logo.png" alt="KLM" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'20\'%3E%3Crect width=\'40\' height=\'20\' fill=\'%230055A4\'/%3E%3Ctext x=\'5\' y=\'14\' fill=\'white\' font-size=\'10\'%3EKLM%3C/text%3E%3C/svg%3E'">
+                <span class="flight-numbers">DL9373¹ · DL133 · DL2573</span>
+                <span class="duration-top">21h 59m</span>
+            </div>
             <div class="journey-row">
                 <div class="location">
                     <div class="time-large">10:00pm</div>
@@ -406,8 +470,10 @@
                     <div class="airport-name">Kotoka Intl Airport</div>
                 </div>
                 <div class="journey-middle">
-                    <div class="duration">21h 59m</div>
-                    <div class="stops">2 stops</div>
+                    <svg class="plane-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#6B7280"/>
+                    </svg>
+                    <div class="stops-info">2 stops</div>
                 </div>
                 <div class="location" style="text-align: right;">
                     <div class="time-large">3:59pm</div>
@@ -417,20 +483,40 @@
                 </div>
             </div>
             <div class="cabin-badge">Main Classic</div>
+            <!-- Amenities row -->
+            <div class="amenities-row">
+                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 13h14v2H5zM5 9h14v2H5z" fill="#6B7280"/>
+                    <path d="M3 5h18v14H3z" stroke="#6B7280" stroke-width="1.5" fill="none"/>
+                </svg>
+                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="7" width="16" height="10" rx="2" stroke="#6B7280" stroke-width="1.2" fill="none"/>
+                    <path d="M12 4v3M8 2v2M16 2v2" stroke="#6B7280" stroke-width="1.2"/>
+                    <circle cx="12" cy="12" r="1.5" fill="#6B7280"/>
+                </svg>
+                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3v18M7 8l5-3 5 3M7 16l5 3 5-3" stroke="#6B7280" stroke-width="1.2"/>
+                    <path d="M18 10v4M6 10v4" stroke="#6B7280" stroke-width="1.2"/>
+                </svg>
+                <svg class="amenity-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="8" width="20" height="8" rx="1" stroke="#6B7280" stroke-width="1.2" fill="none"/>
+                    <path d="M8 12h8M19 11v2" stroke="#6B7280" stroke-width="1.2"/>
+                </svg>
+            </div>
             <div class="operated-note">¹ Operated by KLM Royal Dutch Airlines.</div>
         </div>
     </div>
 
-    <!-- PASSENGER CARD -->
+    <!-- Passenger Card -->
     <div class="passenger-card">
         <div>
             <div class="passenger-name">Felicity Acheampong</div>
-            <div class="skymiles">SkyMiles # 492 117 3302 · Gold</div>
+            <div class="skymiles">SkyMiles # 492 117 3302 · Medallion Gold</div>
         </div>
         <a href="#" class="seat-link" id="seatLink">View Seats →</a>
     </div>
 
-    <!-- PRICE + CHANGEABLE SECTION -->
+    <!-- Price Section -->
     <div class="price-section">
         <div class="changeable-text">Changeable / Nonrefundable</div>
         <div class="amount">
@@ -439,10 +525,10 @@
         </div>
     </div>
 
-    <!-- Bottom confirmation bar -->
+    <!-- Bottom Confirmation -->
     <div class="bottom-confirm">
-        <div class="check-icon" style="background: #0F6E3F;">✓</div>
-        <span>Ticket issued · Confirmed booking</span>
+        <div class="check-icon">✓</div>
+        <span>Ticket issued · Booking confirmed</span>
     </div>
 
     <!-- Footer -->
@@ -452,7 +538,6 @@
 </div>
 
 <script>
-    // Simple interactions
     document.getElementById('checkInLink')?.addEventListener('click', (e) => {
         e.preventDefault();
         alert("Check-in opens 24 hours before departure.");
