@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Delta Air Lines | Trip Confirmed</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #EFF1F4;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #1F2A3E;
+            line-height: 1.4;
+        }
+
+        .delta-app {
+            max-width: 980px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+
+        /* Delta Global Header – with full color logos */
+        .delta-header {
+            background: #003A70;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo-row {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .delta-logo {
+            height: 38px;
+            width: auto;
+            /* force full color: the SVG will show red and blue naturally */
+            filter: none;
+        }
+        .skyteam-logo {
+            height: 28px;
+            width: auto;
+        }
+        .header-links {
+            display: flex;
+            gap: 20px;
+        }
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* secondary tabs */
+        .trip-tabs {
+            background: white;
+            padding: 0 32px;
+            border-bottom: 1px solid #E2E8F0;
+            display: flex;
+            gap: 28px;
+        }
+        .tab {
+            padding: 16px 0 14px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #5A6E8A;
+            border-bottom: 2px solid transparent;
+        }
+        .tab.active {
+            color: #003A70;
+            border-bottom-color: #003A70;
+        }
+
+        /* green confirmation banner */
+        .confirm-bar {
+            background: #E9F5EC;
+            padding: 14px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #CEE0D4;
+        }
+        .confirm-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .check-circle {
+            background: #0A5C36;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .confirm-text {
+            font-weight: 600;
+            color: #0A5C36;
+            font-size: 15px;
+        }
+        .record-code {
+            background: white;
+            padding: 5px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-family: monospace;
+            font-weight: 600;
+            color: #003A70;
+        }
+
+        /* main content */
+        .content-padded {
+            padding: 28px 32px 40px;
+        }
+
+        /* flight cards */
+        .flight-card {
+            border: 1px solid #E2E8F0;
+            border-radius: 20px;
+            margin-bottom: 28px;
+            background: white;
+        }
+        .card-header {
+            background: #F9FAFE;
+            padding: 16px 24px;
+            border-bottom: 1px solid #E9EDF2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .direction {
+            font-weight: 700;
+            font-size: 18px;
+            color: #003A70;
+        }
+        .change-link {
+            color: #0066CC;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .flight-body {
+            padding: 24px;
+        }
+        .flight-numbers {
+            background: #F0F4FA;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1F3A5F;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+        .journey {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .station {
+            flex: 1;
+        }
+        .time {
+            font-size: 32px;
+            font-weight: 600;
+            color: #0A2540;
+        }
+        .date {
+            color: #0F6E3F;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 6px;
+        }
+        .airport-code {
+            font-weight: 700;
+            font-size: 18px;
+            margin-top: 12px;
+        }
+        .airport-name {
+            font-size: 12px;
+            color: #6C7E9E;
+            margin-top: 2px;
+        }
+        .middle-info {
+            text-align: center;
+            min-width: 130px;
+        }
+        .duration-pill {
+            background: #F0F4FA;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        .stops {
+            font-size: 12px;
+            color: #5A6E8A;
+            margin-top: 8px;
+        }
+        .cabin-row {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #EDF2F7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .cabin-badge {
+            background: #EFF3F8;
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1F3A5F;
+        }
+        .layover-box {
+            background: #F9FBFE;
+            margin: 0 24px 24px 24px;
+            padding: 12px 20px;
+            border-radius: 16px;
+            font-size: 13px;
+            color: #2E4A7A;
+            border-left: 3px solid #003A70;
+        }
+
+        /* passenger card */
+        .passenger-card {
+            border: 1px solid #E2E8F0;
+            border-radius: 20px;
+            padding: 20px 24px;
+            margin: 20px 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: white;
+        }
+        .passenger-name {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        .skymiles {
+            font-size: 13px;
+            color: #003A70;
+            font-weight: 500;
+        }
+        .precheck {
+            font-size: 12px;
+            color: #0A5C36;
+            margin-top: 5px;
+        }
+        .seat-actions {
+            display: flex;
+            gap: 14px;
+        }
+        .sec-btn {
+            background: transparent;
+            border: 1px solid #BECDD9;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #1F3A5F;
+            cursor: pointer;
+        }
+
+        /* price panel */
+        .price-panel {
+            background: #F8FAFE;
+            border-radius: 20px;
+            padding: 22px 28px;
+            margin: 12px 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border: 1px solid #E9EDF2;
+        }
+        .amount {
+            font-size: 36px;
+            font-weight: 700;
+            color: #003A70;
+        }
+        .policy-tag {
+            background: #FFF0DF;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #B55A00;
+        }
+        .actions {
+            display: flex;
+            gap: 16px;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #003A70;
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #003A70;
+            cursor: pointer;
+        }
+        .btn-solid {
+            background: #003A70;
+            border: none;
+            padding: 8px 26px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            color: white;
+            cursor: pointer;
+        }
+        .extras {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+            margin: 24px 0 12px;
+            padding: 16px 0 8px;
+            border-top: 1px solid #E9EDF2;
+        }
+        .extra-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+        .footer-note {
+            background: #F7F9FC;
+            padding: 24px 32px;
+            font-size: 12px;
+            color: #6C7E9E;
+            text-align: center;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        @media (max-width: 700px) {
+            .delta-header, .confirm-bar, .content-padded {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .time { font-size: 26px; }
+            .journey { flex-direction: column; align-items: stretch; }
+            .middle-info { text-align: left; margin: 10px 0; }
+        }
+    </style>
+</head>
+<body>
+<div class="delta-app">
+    <!-- header with full-color logos (no emoji) -->
+    <div class="delta-header">
+        <div class="logo-row">
+            <!-- official delta logo SVG (color) -->
+            <img class="delta-logo" src="https://www.delta.com/content/dam/delta_homepage_redesign/Logo/Delta-Logo.svg" alt="Delta Air Lines" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 50\'%3E%3Crect width=\'200\' height=\'50\' fill=\'%23003A70\'/%3E%3Ctext x=\'20\' y=\'32\' fill=\'white\' font-size=\'22\' font-weight=\'bold\'%3EDELTA%3C/text%3E%3C/svg%3E'">
+            <img class="skyteam-logo" src="https://www.delta.com/content/dam/delta_homepage_redesign/Logo/Sky%20Team.svg" alt="SkyTeam" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 30\'%3E%3Crect width=\'100\' height=\'30\' fill=\'%23005B8F\'/%3E%3Ctext x=\'10\' y=\'20\' fill=\'white\' font-size=\'10\'%3ESKYTEAM%3C/text%3E%3C/svg%3E'">
+        </div>
+        <div class="header-links">
+            <a href="#">My Trips</a>
+            <a href="#">Flight Status</a>
+            <a href="#">Check In</a>
+        </div>
+    </div>
+
+    <div class="trip-tabs">
+        <div class="tab active">Trip Summary</div>
+        <div class="tab">Flight Details</div>
+        <div class="tab">Passengers</div>
+        <div class="tab">Receipt</div>
+    </div>
+
+    <div class="confirm-bar">
+        <div class="confirm-left">
+            <div class="check-circle">✓</div>
+            <div class="confirm-text">Confirmed · Fully paid</div>
+        </div>
+        <div class="record-code">Confirmation: YT9F7K · Ticket 006-4782936410</div>
+    </div>
+
+    <div class="content-padded">
+        <!-- OUTBOUND -->
+        <div class="flight-card">
+            <div class="card-header">
+                <span class="direction">Outbound</span>
+                <a href="#" class="change-link" id="changeOutboundLink">Change flight</a>
+            </div>
+            <div class="flight-body">
+                <div class="flight-numbers">DL2430 · DL9375¹ · DL9372²</div>
+                <div class="journey">
+                    <div class="station">
+                        <div class="time">6:59 PM</div>
+                        <div class="date">Fri, Jun 12, 2026</div>
+                        <div class="airport-code">EWR</div>
+                        <div class="airport-name">Newark Liberty International</div>
+                    </div>
+                    <div class="middle-info">
+                        <div class="duration-pill">20h 41m</div>
+                        <div class="stops">2 stops</div>
+                    </div>
+                    <div class="station" style="text-align: right;">
+                        <div class="time">7:40 PM</div>
+                        <div class="date">Sat, Jun 13, 2026 +1 day</div>
+                        <div class="airport-code">ACC</div>
+                        <div class="airport-name">Kotoka International Airport</div>
+                    </div>
+                </div>
+                <div class="cabin-row">
+                    <span class="cabin-badge">Economy (T)</span>
+                    <span style="font-size: 12px; color:#2C6280;">Operated by Delta Air Lines</span>
+                </div>
+            </div>
+            <div class="layover-box">
+                <strong>Connection details:</strong> JFK (2h 15m) · Paris-CDG (1h 50m) · All flights operated by Delta / SkyTeam partners.
+            </div>
+        </div>
+
+        <!-- RETURN -->
+        <div class="flight-card">
+            <div class="card-header">
+                <span class="direction">Return</span>
+                <a href="#" class="change-link" id="changeReturnLink">Change flight</a>
+            </div>
+            <div class="flight-body">
+                <div class="flight-numbers">DL9373¹ · DL133 · DL2573</div>
+                <div class="journey">
+                    <div class="station">
+                        <div class="time">10:00 PM</div>
+                        <div class="date">Tue, Jun 16, 2026</div>
+                        <div class="airport-code">ACC</div>
+                        <div class="airport-name">Kotoka International Airport</div>
+                    </div>
+                    <div class="middle-info">
+                        <div class="duration-pill">21h 59m</div>
+                        <div class="stops">2 stops</div>
+                    </div>
+                    <div class="station" style="text-align: right;">
+                        <div class="time">3:59 PM</div>
+                        <div class="date">Wed, Jun 17, 2026 +1 day</div>
+                        <div class="airport-code">EWR</div>
+                        <div class="airport-name">Newark Liberty International</div>
+                    </div>
+                </div>
+                <div class="cabin-row">
+                    <span class="cabin-badge">Main Classic</span>
+                    <span style="font-size: 12px; color:#2C6280;">SkyMiles eligible</span>
+                </div>
+            </div>
+            <div class="layover-box">
+                <strong>Connection details:</strong> Amsterdam (AMS) 2h 30m · Detroit (DTW) 1h 40m. Main Cabin experience with premium snacks.
+            </div>
+        </div>
+
+        <!-- PASSENGER INFO (no stickers, clean) -->
+        <div class="passenger-card">
+            <div>
+                <div class="passenger-name">Felicity Acheampong</div>
+                <div class="skymiles">SkyMiles # 492 117 3302 · Medallion Gold</div>
+                <div class="precheck">TSA PreCheck approved</div>
+            </div>
+            <div class="seat-actions">
+                <button class="sec-btn" id="viewSeatsBtn">View seats</button>
+                <button class="sec-btn" id="changeSeatsBtn">Change seats</button>
+            </div>
+        </div>
+
+        <!-- FARE RULE BANNER -->
+        <div style="margin-bottom: 16px;">
+            <div class="policy-tag">Changeable / Nonrefundable · Fare rules apply</div>
+        </div>
+
+        <!-- PRICE PANEL -->
+        <div class="price-panel">
+            <div>
+                <div style="font-weight: 500; margin-bottom: 4px;">Total paid</div>
+                <div class="amount">$2,628.02 USD</div>
+                <div style="font-size: 13px; margin-top: 6px;">1 passenger · includes taxes & fees</div>
+                <div style="font-size: 13px;">Visa ending 4302 · Paid in full</div>
+            </div>
+            <div class="actions">
+                <button class="btn-outline" id="receiptBtn">Download receipt</button>
+                <button class="btn-solid" id="walletBtn">Add to Wallet</button>
+            </div>
+        </div>
+
+        <!-- EXTRAS (using subtle svg, no phone emoji) -->
+        <div class="extras">
+            <div class="extra-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM10 4h4v2h-4V4z" fill="#5A6E8A"/>
+                </svg>
+                <div><strong>Baggage allowance</strong><br>2 checked bags (23kg each)</div>
+            </div>
+            <div class="extra-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 13c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z" fill="#5A6E8A"/>
+                </svg>
+                <div><strong>SkyPriority</strong><br>Elite access where available</div>
+            </div>
+            <div class="extra-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 6h-7.59l3.29-3.29L16 2l-4 4-4-4-.71.71L10.59 6H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z" fill="#5A6E8A"/>
+                </svg>
+                <div><strong>Same-day standby</strong><br>Available for Main Cabin</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        <div>Need help? Visit delta.com/my-trips or call Delta Reservations at 1-800-221-1212</div>
+        <div style="margin-top: 6px;">Electronic ticket issued. Flight status, seat selection, and upgrades available in the Fly Delta app.</div>
+        <div style="margin-top: 6px;">Delta Air Lines, Inc. | Record Locator: YT9F7K | Issued June 11, 2026</div>
+    </div>
+</div>
+
+<script>
+    // realistic interactions without phone emoji
+    const changeOut = document.getElementById('changeOutboundLink');
+    const changeRet = document.getElementById('changeReturnLink');
+    const viewSeats = document.getElementById('viewSeatsBtn');
+    const changeSeats = document.getElementById('changeSeatsBtn');
+    const receipt = document.getElementById('receiptBtn');
+    const wallet = document.getElementById('walletBtn');
+
+    if(changeOut) changeOut.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert("Modify outbound flight: Changeable with fare difference. Contact Delta or visit My Trips online.");
+    });
+    if(changeRet) changeRet.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert("Return flight change: Nonrefundable but changeable. Any difference in fare applies.");
+    });
+    if(viewSeats) viewSeats.addEventListener('click', () => {
+        alert("Seat map: Outbound 18A, Return 14F. You may select different seats using the seat map.");
+    });
+    if(changeSeats) changeSeats.addEventListener('click', () => {
+        alert("Change seats: View available seats in Main Cabin. Changes are complimentary.");
+    });
+    if(receipt) receipt.addEventListener('click', () => {
+        alert("Receipt for $2,628.02 sent to felicity.acheampong@example.com. A copy is saved in your account.");
+    });
+    if(wallet) wallet.addEventListener('click', () => {
+        alert("Boarding pass will be added to Apple Wallet. Check-in opens 24 hours before departure.");
+    });
+</script>
+</body>
+</html>
